@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sélection de Soirée</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center mt-5">Bienvenue sur Cocktail Machine</h1>
+
+    <div id="party-selection" class="my-5">
+        <h2>Sélectionnez une soirée</h2>
+        <div id="existing-parties" class="my-3">
+            <!-- Les soirées seront injectées ici par le serveur -->
+        </div>
+        <button id="create-party-btn" class="btn btn-primary">Créer une nouvelle soirée</button>
+    </div>
+
+    <div id="party-creation-form" class="my-5" style="display: none;">
+        <h2>Créer une nouvelle soirée</h2>
+        <form id="new-party-form">
+            <div class="mb-3">
+                <input type="text" class="form-control" id="party-name" name="party-name" placeholder="Nom de la soirée" required>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="party-location" name="party-location" placeholder="Lieu">
+            </div>
+            <div class="mb-3">
+                <input type="datetime-local" class="form-control" id="party-date" name="party-date" required>
+            </div>
+            <button type="submit" class="btn btn-success">Créer</button>
+        </form>
+    </div>
+</div>
+
+<script src="/path/to/your/main.js"></script>
+</body>
+</html>
