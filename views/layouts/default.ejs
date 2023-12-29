@@ -4,26 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %> | Cocktails Machine</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="/icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/bootstrap-custom.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/swall.min.css">
 </head>
 <body>
-    <body>
-        <script src="/js/swall.min.js"></script>
-        <script src="/js/main.js"></script>
-        <!-- spinner bootstrap 5 -->
-        <div id="spinner">
-            <div class="spinner-border text-light" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+    <script src="/js/swall.min.js"></script>
+    <script src="/js/main.js"></script>
+    <div id="spinner">
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
         </div>
-        <% include('../partials/header.ejs') %>
+    </div>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <!-- Titre ou Logo -->
+                <a class="navbar-brand" href="#">Cocktails Machine</a>
     
-        <main class="container"><%- body %></main>
+                <!-- Bouton pour déplier le menu sur mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
     
-        <% include('../partials/footer.ejs') %>
-        <script src="/js/bootstrap.bundle.min.js"></script>
-    </body>
-    </html>
+                <!-- Contenu du menu -->
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!-- Les éléments de menu vont ici -->
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Lien</a>
+                        </li>
+                        <!-- Plus d'éléments si nécessaire -->
+                    </ul>
+                    <!-- Ici, vous pouvez ajouter des formulaires ou d'autres éléments si nécessaire -->
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+
+    <main class="container"><%- body %></main>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

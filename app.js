@@ -6,7 +6,7 @@ const pool = require('./config/database');
 const app = express();
 
 app.use(expressLayouts);
-app.set('layout', './layouts/default')
+app.set('layout', 'layouts/default');
 app.set('view engine', 'ejs');
 app.use(express.json());
 
