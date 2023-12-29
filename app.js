@@ -21,6 +21,7 @@ app.get('/', async (req, res) => {
     res.render('pages/home', { title: 'Accueil', activeParty: activeParty[0] });
 });
 app.use('/parties', require('./routes/partiesRoutes'));
+app.use('/drinks', require('./routes/drinksRoutes'));
 
 app.use((req, res, next) => {
     // 404 render page not found

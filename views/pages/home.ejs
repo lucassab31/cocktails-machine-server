@@ -4,7 +4,7 @@
     <h2 class="text-center">Aucune soirée en cours</h2>
     <a class="btn btn-primary" href="/parties">Choisissez une soirée</a>
 <% } else { %>
-    <h2 class="text-center">Soirée en cours : <%= activeParty.name %></h2>
+    <h2 class="text-center">Soirée en cours : <span class="text-primary"><%= activeParty.name %></span></h2>
 
     <!-- Onglets/Tabs -->
     <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
@@ -12,7 +12,7 @@
             <button class="nav-link active" id="cocktails-tab" data-bs-toggle="tab" data-bs-target="#cocktails" type="button" role="tab" aria-controls="cocktails" aria-selected="true"><i class="bi bi-cup-straw"></i> Cocktails</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="alcools-tab" data-bs-toggle="tab" data-bs-target="#alcools" type="button" role="tab" aria-controls="alcools" aria-selected="false">Alcools</button>
+            <button class="nav-link" id="alcohols-tab" data-bs-toggle="tab" data-bs-target="#alcohols" type="button" role="tab" aria-controls="alcohols" aria-selected="false">Alcools</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="softs-tab" data-bs-toggle="tab" data-bs-target="#softs" type="button" role="tab" aria-controls="softs" aria-selected="false">Softs</button>
@@ -27,7 +27,7 @@
         <div class="tab-pane fade show active" id="cocktails" role="tabpanel" aria-labelledby="cocktails-tab">
             <!-- Contenu pour Cocktails -->
         </div>
-        <div class="tab-pane fade" id="alcools" role="tabpanel" aria-labelledby="alcools-tab">
+        <div class="tab-pane fade" id="alcohols" role="tabpanel" aria-labelledby="alcohols-tab">
             <!-- Contenu pour Alcools purs -->
         </div>
         <div class="tab-pane fade" id="softs" role="tabpanel" aria-labelledby="softs-tab">
@@ -48,6 +48,7 @@
                     loadTabContent(targetId);
                 });
             });
+            loadTabContent('cocktails');
         });
 
         function loadTabContent(targetId) {
@@ -59,12 +60,31 @@
             fetch(`/drinks/${targetId}`)
                 .then(response => response.json())
                 .then(data => {
-                    const contentDiv = document.getElementById(targetId);
-                    contentDiv.innerHTML = ''; // Effacer le contenu précédent
-                    // Construisez et ajoutez le nouveau contenu ici
-                    data.forEach(drink => {
-                        contentDiv.innerHTML += `<p>${drink.name}</p>`; // Exemple simple
-                    });
+                    if (data.success) {
+                        const contentDiv = document.getElementById(targetId);
+                        contentDiv.innerHTML = ''; // Effacer le contenu précédent
+
+                        // Construction d'une grille de cards
+                        const rowDiv = document.createElement('div');
+                        rowDiv.className = 'row';
+                        contentDiv.appendChild(rowDiv);
+
+                        data.drinks.forEach(drink => {
+                            const colDiv = document.createElement('div');
+                            colDiv.className = 'col-md-4';
+                            colDiv.innerHTML = `
+                                <div class="card mb-4 shadow-sm">
+                                    <img src="/images/${drink.image}" class="card-img-top" alt="${drink.name}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${drink.name}</h5>
+                                        ${drink.recipes ? '<ul>' + drink.recipes.map(ingredient => `<li>${ingredient.name}</li>`).join('') + '</ul>' : ''}
+                                    </div>
+                                </div>`;
+                            rowDiv.appendChild(colDiv);
+                        });
+                    } else {
+                        swalError(data.error);
+                    }
                 })
                 .catch(error => console.error('Erreur:', error));
         }
