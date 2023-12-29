@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | Cocktails Machine</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/swall.min.css">
+</head>
+<body>
+    <body>
+        <script src="/js/swall.min.js"></script>
+        <script src="/js/main.js"></script>
+        <!-- spinner bootstrap 5 -->
+        <div id="spinner">
+            <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <% include('../partials/header.ejs') %>
+    
+        <main class="container"><%- body %></main>
+    
+        <% include('../partials/footer.ejs') %>
+        <script src="/js/bootstrap.bundle.min.js"></script>
+    </body>
+    </html>

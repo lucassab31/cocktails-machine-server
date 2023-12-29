@@ -1,14 +1,29 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const newPartyForm = document.getElementById('new-party-form');
+function loadSpinner() {
+    var spinner = document.getElementById('spinner');
+    spinner.style.display = 'flex';
+}
 
-    newPartyForm.addEventListener('submit', function(event) {
-        event.preventDefault();
+function hideSpinner() {
+    var spinner = document.getElementById('spinner');
+    spinner.style.display = 'none';
+}
 
-        const partyName = document.getElementById('party-name').value;
-        const partyLocation = document.getElementById('party-location').value;
-        const partyDate = document.getElementById('party-date').value;
-
-        // Ici, vous pouvez ajouter une requête pour créer une nouvelle soirée
-        // en utilisant fetch API ou une bibliothèque comme axios.
+function swalError(text) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: text,
     });
-});
+}
+
+function swalSuccess(text, callback) {
+    Swal.fire({
+        icon: 'success',
+        title: "Succès",
+        text: text,
+        timer: 2000,
+        timerProgressBar: true,
+    }).then((result) => {
+        callback();
+    });
+}

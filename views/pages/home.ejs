@@ -1,0 +1,72 @@
+<h1 class="text-center">Bienvenue sur la Cocktails Machine</h1>
+
+<% if (!activeParty) { %>
+    <h2 class="text-center">Aucune soirée en cours</h2>
+    <a class="btn btn-primary" href="/parties">Choisissez une soirée</a>
+<% } else { %>
+    <h2 class="text-center">Soirée en cours : <%= activeParty.name %></h2>
+
+    <!-- Onglets/Tabs -->
+    <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="cocktails-tab" data-bs-toggle="tab" data-bs-target="#cocktails" type="button" role="tab" aria-controls="cocktails" aria-selected="true"><i class="bi bi-cup-straw"></i> Cocktails</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="alcools-tab" data-bs-toggle="tab" data-bs-target="#alcools" type="button" role="tab" aria-controls="alcools" aria-selected="false">Alcools</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="softs-tab" data-bs-toggle="tab" data-bs-target="#softs" type="button" role="tab" aria-controls="softs" aria-selected="false">Softs</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="jeux-tab" data-bs-toggle="tab" data-bs-target="#jeux" type="button" role="tab" aria-controls="jeux" aria-selected="false"><i class="bi bi-joystick"></i> Mini-Jeux</button>
+        </li>
+    </ul>
+
+    <!-- Contenu des Tabs -->
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="cocktails" role="tabpanel" aria-labelledby="cocktails-tab">
+            <!-- Contenu pour Cocktails -->
+        </div>
+        <div class="tab-pane fade" id="alcools" role="tabpanel" aria-labelledby="alcools-tab">
+            <!-- Contenu pour Alcools purs -->
+        </div>
+        <div class="tab-pane fade" id="softs" role="tabpanel" aria-labelledby="softs-tab">
+            <!-- Contenu pour Softs -->
+        </div>
+        <div class="tab-pane fade" id="jeux" role="tabpanel" aria-labelledby="jeux-tab">
+            <!-- Contenu pour Mini-Jeux -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabElements = document.querySelectorAll('.nav-link');
+
+            tabElements.forEach(tab => {
+                tab.addEventListener('click', function(event) {
+                    const targetId = event.target.getAttribute('data-bs-target').replace('#', '');
+                    loadTabContent(targetId);
+                });
+            });
+        });
+
+        function loadTabContent(targetId) {
+            if (targetId === 'jeux') {
+                // Traiter différemment l'onglet Mini-Jeux
+                return;
+            }
+
+            fetch(`/drinks/${targetId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const contentDiv = document.getElementById(targetId);
+                    contentDiv.innerHTML = ''; // Effacer le contenu précédent
+                    // Construisez et ajoutez le nouveau contenu ici
+                    data.forEach(drink => {
+                        contentDiv.innerHTML += `<p>${drink.name}</p>`; // Exemple simple
+                    });
+                })
+                .catch(error => console.error('Erreur:', error));
+        }
+    </script>
+<% } %>

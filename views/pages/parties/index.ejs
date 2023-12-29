@@ -1,0 +1,100 @@
+<h1 class="text-center">Bienvenue sur Cocktail Machine</h1>
+
+<div class="row mt-4">
+    <div class="col">
+        <h2>Sélectionnez une soirée</h2>
+        <ul class="list-group" id="party-list">
+            <% parties.forEach(function(party) { %>
+                <li class="list-group-item list-group-item-action" onclick="selectParty('<%= party.id_party %>');">
+                    <%= party.date_party.toLocaleString('fr-FR') %><%= party.name && ` - ${party.name}` %><%= party.location && ` - ${party.location}` %>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+    <div class="col">
+        <h2>Créer une nouvelle soirée</h2>
+        <form id="new-party-form">
+            <div class="mb-3">
+                <input type="text" class="form-control" id="party-name" name="party-name" placeholder="Nom de la soirée" required>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" id="party-location" name="party-location" placeholder="Lieu">
+            </div>
+            <div class="mb-3">
+                <input type="datetime-local" class="form-control" id="party-date" name="party-date" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Créer</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const newPartyForm = document.getElementById('new-party-form');
+
+        newPartyForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            loadSpinner();
+
+            const formData = {
+                partyName: document.getElementById('party-name').value,
+                partyLocation: document.getElementById('party-location').value,
+                partyDate: document.getElementById('party-date').value
+            };
+
+            fetch('/parties/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideSpinner();
+                if (data.success) {
+                    swalSuccess('Soirée créée avec succès !', () => {
+                        window.location.href = '/';
+                    });
+                } else {
+                    swalError(data.error);
+                }
+            })
+            .catch(error => {
+                hideSpinner();
+                swalError(error.message);
+            });
+        });
+
+        const now = new Date();
+        const localDateTime = formatLocalDateTime(now);
+        document.getElementById('party-date').value = localDateTime;
+    });
+
+    function formatLocalDateTime(date) {
+        const offset = date.getTimezoneOffset();
+        const localDate = new Date(date.getTime() - offset * 60 * 1000);
+        return localDate.toISOString().slice(0, 16);
+    }
+
+    function selectParty(id) {
+        loadSpinner();
+
+        fetch(`/parties/select/${id}`, {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideSpinner();
+            if (data.success) {
+                window.location.href = '/';
+            } else {
+                swalError(data.error);
+            }
+        })
+        .catch(error => {
+            hideSpinner();
+            swalError(error.message);
+        });
+    }
+</script>
